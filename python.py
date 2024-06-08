@@ -13,9 +13,8 @@ input_string.append('$')
 
 command = []
 
-#print(input_string)
+print(input_string)
 
-# input_string = list(map(str, input_string.split(' ')))
 
 def func_length(s):
     if s=='':
@@ -32,9 +31,10 @@ if __name__ == "__main__":
         current_state = stack.pop()
         action = table[input_symbol][current_state]
         #print(input_symbol+ ":"+ str(action))
-        if action is None:
+        if str(action) == "nan":
             #print('error')
-            break
+            print(f"handle position : {handle-1}, next input symbol : {input_string[handle]}")
+            exit()
         elif type(action) == str and action[0] == 's':
             handle += 1
             stack.append(current_state)
