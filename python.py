@@ -4,7 +4,7 @@ r = [['S' , 'CODE'],['CODE' , 'VDECL CODE' ],['CODE' , 'FDECL CODE' ],['CODE' , 
 stack = []
 current_state = 0
 handle = 0
-table = pd.read_excel(r'F:\Workspace\0_CAU\3-1\Compiler\SLR_parser\SLR.xlsx')
+table = pd.read_excel(r'C:\Workspace\1_Univ\CAU\3-1\Compiler\SLR.xlsx')
 table = pd.DataFrame(table)
 input_string = str(open(sys.argv[1], 'r').readline())
 input_string = input_string.split(' ')
@@ -23,7 +23,7 @@ def func_length(s):
     if temp == 0:
         return 1
     return len(temp)
-
+# ----------------------------------------------------------- Algorithm --------------------------------------------------
 if __name__ == "__main__":
     stack.append(current_state)
     while True:
@@ -60,16 +60,19 @@ if __name__ == "__main__":
             print(command)
             break
     output = [['CODE',[0]]]
+# ----------------------------------------------------------- Printing Code ----------------------------------------------
     layer = 1
     index = 0
     i = 0
+    max_layer=0
     while True:
         if len(command) == i:
             break
         print(index)
         print(r[command[i]][0])
-        if output[index][0] == r[command[i]][0] and len(output[index][1]) == layer:
+        if len(output[index]) == 2 and  output[index][0] == r[command[i]][0] and len(output[index][1]) == layer:
             index2 = 0
+            output[index].append("s")
             for j in r[command[i]][1].split(' '):
                 temp = [j, []]
                 for k in  output[index][1]:
@@ -77,6 +80,8 @@ if __name__ == "__main__":
                 temp[1].append(index2)
                 index2+=1
                 output.append(temp)
+            if max_layer<layer:
+                max_layer = layer
             layer += 1
             i += 1
             print(output)
@@ -88,8 +93,15 @@ if __name__ == "__main__":
             if index == -1:
                 layer -= 1
                 index = len(output)-1
-    print(output)
+    layer=1
+    output_string = []
+    for _ in range(max_layer+1):
+        output_string.append(0)
+    for i in output:
+        output_string[len(i[1])-1]+=1
+    print(output_string)
 
+            
 # import os
 
 # def print_tree(startpath, indent=''):
