@@ -114,8 +114,30 @@ if __name__ == "__main__":
                     result.insert(k, output[j])
                     break
     result.reverse()
-    for i in result:
-        if len(i[1]) == 1:
-            print(i[0])
+    indent = ''
+    for i in range(len(result)):
+        if i == 0:
+            print(result[i][0])
+            continue
+        if i < len(result)-1 and len(result[i+1][1]) == len(result[i][1]):
+            indent = indent[0:(len(result[i][1])-2)*4]
+            print(indent+'├── '+result[i][0])
+            indent += "│   "
+        elif i < len(result)-1:
+            last = True
+            for j in range(i+1,len(result)):
+                if result[i][1][0:len(result[i][1])-1] == result[j][1][0:len(result[j][1])-1]:
+                    last = False
+                    break
+            if last:
+                indent = indent[0:(len(result[i][1])-2)*4]
+                print(indent+'└── '+result[i][0])
+                indent += "    "
+            else:
+                indent = indent[0:(len(result[i][1])-2)*4]
+                print(indent+'├── '+result[i][0])
+                indent += "│   "
         else:
-            print("    "*(len(i[1])-2)+'┖── '+i[0])
+            indent = indent[0:(len(result[i][1])-2)*4]
+            print(indent+'└── '+result[i][0])
+            indent += "    "
